@@ -14,6 +14,7 @@ import EventCalendar from '@/components/EventCalendar';
 import StoreList from '@/components/StoreList';
 import ProfileSection from '@/components/ProfileSection';
 import UserPreferences from '@/components/UserPreferences';
+import FavoriteLooks from '@/components/FavoriteLooks';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -47,6 +48,10 @@ const Index = () => {
             <TabsTrigger value="analyze" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
               <Icon name="Camera" size={20} />
               <span className="text-xs">Анализ</span>
+            </TabsTrigger>
+            <TabsTrigger value="favorites" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
+              <Icon name="Heart" size={20} />
+              <span className="text-xs">Избранное</span>
             </TabsTrigger>
             <TabsTrigger value="calendar" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
               <Icon name="Calendar" size={20} />
@@ -147,6 +152,10 @@ const Index = () => {
             <StyleSelector />
             <ImprovementSuggestions />
             <AnalysisHistory onSelectAnalysis={setUploadedImage} />
+          </TabsContent>
+
+          <TabsContent value="favorites">
+            <FavoriteLooks onSelectLook={setUploadedImage} />
           </TabsContent>
 
           <TabsContent value="calendar">

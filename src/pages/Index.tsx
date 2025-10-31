@@ -16,6 +16,7 @@ import ProfileSection from '@/components/ProfileSection';
 import UserPreferences from '@/components/UserPreferences';
 import FavoriteLooks from '@/components/FavoriteLooks';
 import ImageRecognition from '@/components/ImageRecognition';
+import CapsuleWardrobe from '@/components/CapsuleWardrobe';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -98,13 +99,13 @@ const Index = () => {
                 </CardHeader>
               </Card>
 
-              <Card className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer">
+              <Card className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer" onClick={() => setActiveTab('search')}>
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary to-accent flex items-center justify-center mb-2">
-                    <Icon name="Shirt" size={24} className="text-white" />
+                    <Icon name="ScanSearch" size={24} className="text-white" />
                   </div>
-                  <CardTitle className="text-lg">Примерка AR</CardTitle>
-                  <CardDescription>Виртуальная примерка</CardDescription>
+                  <CardTitle className="text-lg">Поиск вещей</CardTitle>
+                  <CardDescription>Найди по фото</CardDescription>
                 </CardHeader>
               </Card>
 
@@ -118,13 +119,13 @@ const Index = () => {
                 </CardHeader>
               </Card>
 
-              <Card className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer" onClick={() => navigate('/saved-looks')}>
+              <Card className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer" onClick={() => setActiveTab('capsule')}>
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary via-secondary to-accent flex items-center justify-center mb-2">
-                    <Icon name="History" size={24} className="text-white" />
+                    <Icon name="Package" size={24} className="text-white" />
                   </div>
-                  <CardTitle className="text-lg">История</CardTitle>
-                  <CardDescription>Сохранённые луки</CardDescription>
+                  <CardTitle className="text-lg">Капсулы</CardTitle>
+                  <CardDescription>Гардеробы</CardDescription>
                 </CardHeader>
               </Card>
             </div>
@@ -166,6 +167,10 @@ const Index = () => {
 
           <TabsContent value="favorites">
             <FavoriteLooks onSelectLook={setUploadedImage} />
+          </TabsContent>
+
+          <TabsContent value="capsule">
+            <CapsuleWardrobe />
           </TabsContent>
 
           <TabsContent value="calendar">

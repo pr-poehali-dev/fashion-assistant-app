@@ -3,14 +3,42 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 const ProfilePhotoUpload = () => {
   const { toast } = useToast();
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [aiRecommendations, setAiRecommendations] = useState<any>(null);
+  const USER_DATA_API = 'https://functions.poehali.dev/5ea73222-00d7-4e98-830c-7edf76bbef24';
+  const userId = 1;
+
+  useEffect(() => {
+    loadUserProfile();
+  }, []);
+
+  const loadUserProfile = async () => {
+    try {
+      const response = await fetch(`${USER_DATA_API}?user_id=${userId}&type=profile`);
+      const data = await response.json();
+      
+      if (data.profile) {
+        setProfilePhoto(data.profile.profile_photo_url);
+        setAiRecommendations({
+          colorType: data.profile.ai_color_type,
+          bodyType: data.profile.ai_body_type,
+          recommendedStyles: data.profile.ai_recommended_styles || [],
+          colors: data.profile.ai_recommended_colors || [],
+          avoid: data.profile.ai_avoid_colors || [],
+          celebrities: data.profile.ai_similar_celebrities || []
+        });
+      }
+    } catch (error) {
+      console.error('Failed to load profile:', error);
+    }
+  };
 
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -24,24 +52,59 @@ const ProfilePhotoUpload = () => {
     }
   };
 
-  const analyzePhoto = () => {
+  const analyzePhoto = async () => {
     setIsAnalyzing(true);
     
-    setTimeout(() => {
-      setAiRecommendations({
+    setTimeout(async () => {
+      const recommendations = {
         colorType: 'Теплый цветотип',
         bodyType: 'Прямоугольник',
         recommendedStyles: ['Casual chic', 'Romantic', 'Classic'],
         colors: ['Бежевый', 'Коралловый', 'Оливковый', 'Терракотовый'],
         avoid: ['Холодные синие', 'Яркий фиолетовый'],
         celebrities: ['Дженнифер Энистон', 'Жизель Бундхен']
-      });
+      };
+      
+      setAiRecommendations(recommendations);
       setIsAnalyzing(false);
+      
+      await saveToDatabase(recommendations);
+      
       toast({
-        title: 'Анализ завершен!',
+        title: 'Анализ завершен и сохранён!',
         description: 'AI определил ваш цветотип и подходящие стили',
       });
     }, 2000);
+  };
+
+  const saveToDatabase = async (recommendations: any) => {
+    setIsSaving(true);
+    try {
+      await fetch(USER_DATA_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'save_ai_analysis',
+          user_id: userId,
+          profile_photo_url: profilePhoto,
+          color_type: recommendations.colorType,
+          body_type: recommendations.bodyType,
+          recommended_styles: recommendations.recommendedStyles,
+          recommended_colors: recommendations.colors,
+          avoid_colors: recommendations.avoid,
+          similar_celebrities: recommendations.celebrities
+        })
+      });
+    } catch (error) {
+      console.error('Failed to save analysis:', error);
+      toast({
+        title: 'Ошибка сохранения',
+        description: 'Не удалось сохранить данные',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -172,9 +235,14 @@ const ProfilePhotoUpload = () => {
                 </div>
               </div>
 
-              <Button variant="outline" className="w-full">
-                <Icon name="Download" size={18} className="mr-2" />
-                Сохранить рекомендации
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={() => saveToDatabase(aiRecommendations)}
+                disabled={isSaving}
+              >
+                <Icon name={isSaving ? "Loader2" : "Save"} size={18} className={`mr-2 ${isSaving ? 'animate-spin' : ''}`} />
+                {isSaving ? 'Сохранение...' : 'Сохранить в профиль'}
               </Button>
             </div>
           )}

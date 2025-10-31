@@ -5,12 +5,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 const StylePreferencesQuiz = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
+  const [isSaving, setIsSaving] = useState(false);
   const [preferences, setPreferences] = useState({
     styles: [] as string[],
     occasions: [] as string[],
@@ -21,6 +22,34 @@ const StylePreferencesQuiz = () => {
     budget: '',
     notes: ''
   });
+  const USER_DATA_API = 'https://functions.poehali.dev/5ea73222-00d7-4e98-830c-7edf76bbef24';
+  const userId = 1;
+
+  useEffect(() => {
+    loadUserPreferences();
+  }, []);
+
+  const loadUserPreferences = async () => {
+    try {
+      const response = await fetch(`${USER_DATA_API}?user_id=${userId}&type=preferences`);
+      const data = await response.json();
+      
+      if (data.preferences) {
+        setPreferences({
+          styles: data.preferences.favorite_styles || [],
+          occasions: data.preferences.favorite_occasions || [],
+          favoriteColors: data.preferences.favorite_colors || [],
+          celebrities: data.preferences.favorite_celebrities || '',
+          fashionIcons: data.preferences.fashion_icons || '',
+          brands: data.preferences.favorite_brands || '',
+          budget: data.preferences.budget_max ? `${data.preferences.budget_min}-${data.preferences.budget_max}` : '',
+          notes: data.preferences.additional_notes || ''
+        });
+      }
+    } catch (error) {
+      console.error('Failed to load preferences:', error);
+    }
+  };
 
   const styleOptions = [
     { id: 'casual', label: 'Casual', icon: 'Shirt' },
@@ -84,11 +113,43 @@ const StylePreferencesQuiz = () => {
     }));
   };
 
-  const handleComplete = () => {
-    toast({
-      title: 'Анкета сохранена!',
-      description: 'AI теперь будет подбирать образы на основе ваших предпочтений',
-    });
+  const handleComplete = async () => {
+    setIsSaving(true);
+    try {
+      await fetch(USER_DATA_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'save_preferences',
+          user_id: userId,
+          favorite_styles: preferences.styles,
+          favorite_occasions: preferences.occasions,
+          favorite_colors: preferences.favoriteColors,
+          favorite_celebrities: preferences.celebrities,
+          fashion_icons: preferences.fashionIcons,
+          favorite_brands: preferences.brands,
+          budget_min: 5000,
+          budget_max: 200000,
+          additional_notes: preferences.notes
+        })
+      });
+      
+      toast({
+        title: 'Анкета сохранена!',
+        description: 'AI теперь будет подбирать образы на основе ваших предпочтений',
+      });
+      
+      setStep(1);
+    } catch (error) {
+      console.error('Failed to save preferences:', error);
+      toast({
+        title: 'Ошибка сохранения',
+        description: 'Не удалось сохранить данные',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -344,9 +405,10 @@ const StylePreferencesQuiz = () => {
               <Button
                 className="flex-1 bg-gradient-to-r from-primary to-secondary"
                 onClick={handleComplete}
+                disabled={isSaving}
               >
-                <Icon name="Check" size={18} className="mr-2" />
-                Завершить
+                <Icon name={isSaving ? "Loader2" : "Check"} size={18} className={`mr-2 ${isSaving ? 'animate-spin' : ''}`} />
+                {isSaving ? 'Сохранение...' : 'Завершить'}
               </Button>
             </div>
           </CardContent>

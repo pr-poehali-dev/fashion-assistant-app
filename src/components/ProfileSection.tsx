@@ -61,10 +61,6 @@ const ProfileSection = () => {
             Уведомления
           </Button>
           <Button variant="ghost" className="w-full justify-start">
-            <Icon name="Heart" size={18} className="mr-3" />
-            Мои предпочтения
-          </Button>
-          <Button variant="ghost" className="w-full justify-start">
             <Icon name="CreditCard" size={18} className="mr-3" />
             Подписка и оплата
           </Button>

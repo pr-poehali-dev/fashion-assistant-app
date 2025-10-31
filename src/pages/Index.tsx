@@ -17,6 +17,10 @@ import UserPreferences from '@/components/UserPreferences';
 import FavoriteLooks from '@/components/FavoriteLooks';
 import ImageRecognition from '@/components/ImageRecognition';
 import CapsuleWardrobe from '@/components/CapsuleWardrobe';
+import FeedbackForm from '@/components/FeedbackForm';
+import SupportForm from '@/components/SupportForm';
+import ProfilePhotoUpload from '@/components/ProfilePhotoUpload';
+import StylePreferencesQuiz from '@/components/StylePreferencesQuiz';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -43,7 +47,7 @@ const Index = () => {
         </header>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList className="grid w-full grid-cols-6 bg-white/80 backdrop-blur">
+          <TabsList className="grid w-full grid-cols-6 bg-white/80 backdrop-blur overflow-x-auto">
             <TabsTrigger value="home" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
               <Icon name="Home" size={20} />
               <span className="text-xs">Главная</span>
@@ -182,7 +186,50 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="profile" className="space-y-4">
-            <ProfileSection />
+            <Tabs defaultValue="main" className="space-y-4">
+              <TabsList className="grid w-full grid-cols-5 bg-white/80">
+                <TabsTrigger value="main">
+                  <Icon name="User" size={16} className="mr-1" />
+                  <span className="text-xs">Профиль</span>
+                </TabsTrigger>
+                <TabsTrigger value="photo">
+                  <Icon name="Camera" size={16} className="mr-1" />
+                  <span className="text-xs">Фото</span>
+                </TabsTrigger>
+                <TabsTrigger value="quiz">
+                  <Icon name="ClipboardList" size={16} className="mr-1" />
+                  <span className="text-xs">Анкета</span>
+                </TabsTrigger>
+                <TabsTrigger value="feedback">
+                  <Icon name="Lightbulb" size={16} className="mr-1" />
+                  <span className="text-xs">Идеи</span>
+                </TabsTrigger>
+                <TabsTrigger value="support">
+                  <Icon name="HeadphonesIcon" size={16} className="mr-1" />
+                  <span className="text-xs">Помощь</span>
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="main">
+                <ProfileSection />
+              </TabsContent>
+
+              <TabsContent value="photo">
+                <ProfilePhotoUpload />
+              </TabsContent>
+
+              <TabsContent value="quiz">
+                <StylePreferencesQuiz />
+              </TabsContent>
+
+              <TabsContent value="feedback">
+                <FeedbackForm />
+              </TabsContent>
+
+              <TabsContent value="support">
+                <SupportForm />
+              </TabsContent>
+            </Tabs>
             <UserPreferences />
           </TabsContent>
         </Tabs>

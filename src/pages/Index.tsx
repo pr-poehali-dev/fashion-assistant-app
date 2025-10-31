@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -12,6 +13,7 @@ import StoreList from '@/components/StoreList';
 import ProfileSection from '@/components/ProfileSection';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('home');
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
@@ -106,7 +108,7 @@ const Index = () => {
                 </CardHeader>
               </Card>
 
-              <Card className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer">
+              <Card className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer" onClick={() => navigate('/saved-looks')}>
                 <CardHeader className="pb-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary via-secondary to-accent flex items-center justify-center mb-2">
                     <Icon name="History" size={24} className="text-white" />

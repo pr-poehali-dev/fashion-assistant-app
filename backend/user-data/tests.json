@@ -1,0 +1,35 @@
+{
+  "tests": [
+    {
+      "name": "Сохранение AI-анализа",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "save_ai_analysis",
+        "user_id": 1,
+        "profile_photo_url": "https://example.com/photo.jpg",
+        "color_type": "Теплый",
+        "body_type": "Прямоугольник",
+        "recommended_styles": ["Casual", "Romantic"],
+        "recommended_colors": ["Бежевый", "Коралловый"],
+        "avoid_colors": ["Холодный синий"],
+        "similar_celebrities": ["Актриса А"]
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Получение профиля пользователя",
+      "method": "GET",
+      "path": "/?user_id=1&type=profile",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "profile": {}
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

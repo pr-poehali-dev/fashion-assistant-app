@@ -8,6 +8,8 @@ import Icon from '@/components/ui/icon';
 import PhotoUpload from '@/components/PhotoUpload';
 import LookAnalysis from '@/components/LookAnalysis';
 import StyleSelector from '@/components/StyleSelector';
+import AnalysisHistory from '@/components/AnalysisHistory';
+import ImprovementSuggestions from '@/components/ImprovementSuggestions';
 import EventCalendar from '@/components/EventCalendar';
 import StoreList from '@/components/StoreList';
 import ProfileSection from '@/components/ProfileSection';
@@ -142,6 +144,8 @@ const Index = () => {
             <PhotoUpload onImageUpload={setUploadedImage} />
             {uploadedImage && <LookAnalysis imageUrl={uploadedImage} />}
             <StyleSelector />
+            <ImprovementSuggestions />
+            <AnalysisHistory onSelectAnalysis={setUploadedImage} />
           </TabsContent>
 
           <TabsContent value="calendar">

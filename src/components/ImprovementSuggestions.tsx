@@ -4,7 +4,34 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 
-const ImprovementSuggestions = () => {
+interface UserPreferences {
+  clothing: {
+    tops: string;
+    bottoms: string;
+    dress: string;
+    shoes: string;
+  };
+  brands: string[];
+  priceRange: {
+    min: string;
+    max: string;
+  };
+  deliveryCity: string;
+}
+
+interface ImprovementSuggestionsProps {
+  userPreferences?: UserPreferences;
+}
+
+const ImprovementSuggestions = ({ userPreferences }: ImprovementSuggestionsProps) => {
+  const defaultPreferences: UserPreferences = {
+    clothing: { tops: 'M', bottoms: '46', dress: 'M', shoes: '38' },
+    brands: ['ZARA', 'H&M', 'Mango'],
+    priceRange: { min: '1000', max: '10000' },
+    deliveryCity: 'Москва'
+  };
+
+  const prefs = userPreferences || defaultPreferences;
   const suggestions = [
     {
       id: 1,
@@ -15,8 +42,8 @@ const ImprovementSuggestions = () => {
       description: 'Добавь элементы красного или оранжевого цвета для большей выразительности образа',
       impact: '+8 баллов',
       items: [
-        { name: 'Красная сумка', price: '2 990 ₽', store: 'ZARA' },
-        { name: 'Оранжевый шарф', price: '1 490 ₽', store: 'H&M' }
+        { name: 'Красная сумка', price: '2 990 ₽', store: 'ZARA', size: 'One Size', inStock: true, city: prefs.deliveryCity },
+        { name: 'Оранжевый шарф', price: '1 490 ₽', store: 'H&M', size: 'One Size', inStock: true, city: prefs.deliveryCity }
       ]
     },
     {
@@ -28,8 +55,8 @@ const ImprovementSuggestions = () => {
       description: 'Часы или браслет добавят завершённости деловому стилю',
       impact: '+5 баллов',
       items: [
-        { name: 'Классические часы', price: '4 990 ₽', store: 'Mango' },
-        { name: 'Минималистичный браслет', price: '890 ₽', store: 'H&M' }
+        { name: 'Классические часы', price: '4 990 ₽', store: 'Mango', size: 'One Size', inStock: true, city: prefs.deliveryCity },
+        { name: 'Минималистичный браслет', price: '890 ₽', store: 'H&M', size: 'One Size', inStock: true, city: prefs.deliveryCity }
       ]
     },
     {
@@ -41,8 +68,8 @@ const ImprovementSuggestions = () => {
       description: 'Для вечернего выхода лучше выбрать туфли на каблуке',
       impact: '+6 баллов',
       items: [
-        { name: 'Туфли на каблуке', price: '5 990 ₽', store: 'ZARA' },
-        { name: 'Элегантные босоножки', price: '6 490 ₽', store: 'Mango' }
+        { name: 'Туфли на каблуке', price: '5 990 ₽', store: 'ZARA', size: prefs.clothing.shoes, inStock: true, city: prefs.deliveryCity },
+        { name: 'Элегантные босоножки', price: '6 490 ₽', store: 'Mango', size: prefs.clothing.shoes, inStock: true, city: prefs.deliveryCity }
       ]
     },
     {
@@ -54,8 +81,8 @@ const ImprovementSuggestions = () => {
       description: 'Oversize верх + облегающий низ создадут более модный силуэт',
       impact: '+4 балла',
       items: [
-        { name: 'Oversize пиджак', price: '7 990 ₽', store: 'ZARA' },
-        { name: 'Облегающие брюки', price: '3 990 ₽', store: 'Mango' }
+        { name: 'Oversize пиджак', price: '7 990 ₽', store: 'ZARA', size: prefs.clothing.tops, inStock: true, city: prefs.deliveryCity },
+        { name: 'Облегающие брюки', price: '3 990 ₽', store: 'Mango', size: prefs.clothing.bottoms, inStock: true, city: prefs.deliveryCity }
       ]
     }
   ];
@@ -128,14 +155,31 @@ const ImprovementSuggestions = () => {
                         <Icon name="ShoppingBag" size={12} />
                         Рекомендуемые товары:
                       </p>
-                      {suggestion.items.map((item, idx) => (
+                      {suggestion.items.map((item: any, idx) => (
                         <div key={idx} className="flex items-center justify-between p-2 bg-muted rounded-lg">
-                          <div>
-                            <p className="text-xs font-medium">{item.name}</p>
-                            <p className="text-xs text-muted-foreground">{item.store}</p>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <p className="text-xs font-medium">{item.name}</p>
+                              {item.inStock && (
+                                <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
+                                  <Icon name="CheckCircle2" size={10} className="mr-1" />
+                                  В наличии
+                                </Badge>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                              <span>{item.store}</span>
+                              <span>•</span>
+                              <span>Размер: {item.size}</span>
+                              <span>•</span>
+                              <span className="flex items-center gap-1">
+                                <Icon name="MapPin" size={10} />
+                                {item.city}
+                              </span>
+                            </div>
                           </div>
                           <div className="text-right">
-                            <p className="text-xs font-bold">{item.price}</p>
+                            <p className="text-xs font-bold mb-1">{item.price}</p>
                             <Button variant="ghost" size="sm" className="h-6 text-xs">
                               <Icon name="ExternalLink" size={12} className="mr-1" />
                               Купить

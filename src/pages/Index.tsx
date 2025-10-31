@@ -13,6 +13,7 @@ import ImprovementSuggestions from '@/components/ImprovementSuggestions';
 import EventCalendar from '@/components/EventCalendar';
 import StoreList from '@/components/StoreList';
 import ProfileSection from '@/components/ProfileSection';
+import UserPreferences from '@/components/UserPreferences';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -156,8 +157,9 @@ const Index = () => {
             <StoreList />
           </TabsContent>
 
-          <TabsContent value="profile">
+          <TabsContent value="profile" className="space-y-4">
             <ProfileSection />
+            <UserPreferences />
           </TabsContent>
         </Tabs>
       </div>

@@ -6,9 +6,10 @@ import { useToast } from '@/hooks/use-toast';
 
 interface PhotoUploadProps {
   onImageUpload: (imageUrl: string) => void;
+  mode?: 'analyze' | 'search';
 }
 
-const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
+const PhotoUpload = ({ onImageUpload, mode = 'analyze' }: PhotoUploadProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const { toast } = useToast();
 
@@ -19,7 +20,7 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
         onImageUpload(reader.result as string);
         toast({
           title: 'Фото загружено',
-          description: 'Анализируем твой образ...',
+          description: mode === 'search' ? 'Ищем похожие товары...' : 'Анализируем твой образ...',
         });
       };
       reader.readAsDataURL(file);
@@ -52,10 +53,14 @@ const PhotoUpload = ({ onImageUpload }: PhotoUploadProps) => {
     <Card className="border-2 border-dashed border-primary/30 bg-gradient-to-br from-white to-pink-50">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Icon name="Upload" size={20} />
-          Загрузи фото
+          <Icon name={mode === 'search' ? 'ScanSearch' : 'Upload'} size={20} />
+          {mode === 'search' ? 'Найди похожие вещи' : 'Загрузи фото'}
         </CardTitle>
-        <CardDescription>Добавь фото своего образа для AI-анализа</CardDescription>
+        <CardDescription>
+          {mode === 'search' 
+            ? 'Загрузи фото с понравившимся образом, и мы найдём похожие товары в магазинах' 
+            : 'Добавь фото своего образа для AI-анализа'}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div

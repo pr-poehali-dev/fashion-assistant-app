@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Icon from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileSection = () => {
+  const navigate = useNavigate();
   return (
     <div className="space-y-4">
       <Card className="border-0 shadow-lg bg-gradient-to-br from-primary via-secondary to-accent text-white">
@@ -98,7 +100,10 @@ const ProfileSection = () => {
               <span className="text-sm">Аналитика продаж в реальном времени</span>
             </div>
           </div>
-          <Button className="w-full bg-gradient-to-r from-primary to-secondary">
+          <Button 
+            className="w-full bg-gradient-to-r from-primary to-secondary"
+            onClick={() => navigate('/partnership')}
+          >
             <Icon name="Mail" size={18} className="mr-2" />
             Стать партнёром
           </Button>

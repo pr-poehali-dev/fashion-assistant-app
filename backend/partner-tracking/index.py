@@ -35,7 +35,30 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 body_data = json.loads(event.get('body', '{}'))
                 action = body_data.get('action')
                 
-                if action == 'track_click':
+                if action == 'track_ad_click':
+                    ad_id = body_data.get('ad_id')
+                    advertiser = body_data.get('advertiser', 'Unknown')
+                    click_cost = body_data.get('click_cost', 10)
+                    
+                    cur.execute("""
+                        INSERT INTO ad_clicks (ad_id, advertiser, click_cost, clicked_at)
+                        VALUES (%s, %s, %s, CURRENT_TIMESTAMP)
+                        RETURNING id
+                    """, (ad_id, advertiser, click_cost))
+                    click = cur.fetchone()
+                    conn.commit()
+                    
+                    return {
+                        'statusCode': 200,
+                        'headers': {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        },
+                        'isBase64Encoded': False,
+                        'body': json.dumps({'success': True, 'click_id': click['id']})
+                    }
+                
+                elif action == 'track_click':
                     user_id = body_data.get('user_id')
                     store_id = body_data.get('store_id')
                     product_url = body_data.get('product_url', '')

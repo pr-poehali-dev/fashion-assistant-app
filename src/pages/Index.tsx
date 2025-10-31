@@ -21,12 +21,15 @@ import FeedbackForm from '@/components/FeedbackForm';
 import SupportForm from '@/components/SupportForm';
 import ProfilePhotoUpload from '@/components/ProfilePhotoUpload';
 import StylePreferencesQuiz from '@/components/StylePreferencesQuiz';
+import AdBanner from '@/components/AdBanner';
+import BeautyBooking from '@/components/BeautyBooking';
 
 const Index = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('home');
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [searchImage, setSearchImage] = useState<string | null>(null);
+  const [isTrialUser] = useState(true);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-orange-50">
@@ -47,7 +50,7 @@ const Index = () => {
         </header>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList className="grid w-full grid-cols-6 bg-white/80 backdrop-blur overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-7 bg-white/80 backdrop-blur overflow-x-auto">
             <TabsTrigger value="home" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
               <Icon name="Home" size={20} />
               <span className="text-xs">Главная</span>
@@ -68,6 +71,10 @@ const Index = () => {
               <Icon name="Calendar" size={20} />
               <span className="text-xs">События</span>
             </TabsTrigger>
+            <TabsTrigger value="beauty" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
+              <Icon name="Sparkles" size={20} />
+              <span className="text-xs">Салоны</span>
+            </TabsTrigger>
             <TabsTrigger value="profile" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
               <Icon name="User" size={20} />
               <span className="text-xs">Профиль</span>
@@ -75,6 +82,7 @@ const Index = () => {
           </TabsList>
 
           <TabsContent value="home" className="space-y-4">
+            {isTrialUser && <AdBanner isTrialUser={isTrialUser} />}
             <Card className="border-0 shadow-lg bg-gradient-to-br from-primary via-secondary to-accent text-white overflow-hidden">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -154,6 +162,7 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="analyze" className="space-y-4">
+            {isTrialUser && <AdBanner isTrialUser={isTrialUser} />}
             <PhotoUpload onImageUpload={setUploadedImage} />
             {uploadedImage && <LookAnalysis imageUrl={uploadedImage} />}
             <StyleSelector />
@@ -162,6 +171,7 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="search" className="space-y-4">
+            {isTrialUser && <AdBanner isTrialUser={isTrialUser} />}
             {!searchImage ? (
               <PhotoUpload onImageUpload={setSearchImage} mode="search" />
             ) : (
@@ -169,8 +179,14 @@ const Index = () => {
             )}
           </TabsContent>
 
-          <TabsContent value="favorites">
+          <TabsContent value="favorites" className="space-y-4">
+            {isTrialUser && <AdBanner isTrialUser={isTrialUser} />}
             <FavoriteLooks onSelectLook={setUploadedImage} />
+          </TabsContent>
+
+          <TabsContent value="beauty" className="space-y-4">
+            {isTrialUser && <AdBanner isTrialUser={isTrialUser} />}
+            <BeautyBooking />
           </TabsContent>
 
           <TabsContent value="capsule">

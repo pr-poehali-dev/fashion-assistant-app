@@ -1,0 +1,34 @@
+{
+  "tests": [
+    {
+      "name": "Добавление партнёрского магазина",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "add_partner",
+        "name": "Тестовый магазин",
+        "logo_url": "https://example.com/logo.png",
+        "website_url": "https://example.com",
+        "priority_level": 5,
+        "click_rate_rub": 10,
+        "commission_percent": 5
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "partner": {},
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Получение статистики",
+      "method": "GET",
+      "path": "/?action=stats",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "total_clicks": 0
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

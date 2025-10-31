@@ -1,0 +1,35 @@
+{
+  "tests": [
+    {
+      "name": "Регистрация нового пользователя",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "register",
+        "email": "unique_test_user@example.com",
+        "name": "Тест Пользователь"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "user": {},
+        "trial_days_left": 3
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Вход существующего пользователя",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "login",
+        "email": "test@example.com"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "user": {},
+        "has_access": true
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

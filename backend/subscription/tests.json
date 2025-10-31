@@ -1,0 +1,34 @@
+{
+  "tests": [
+    {
+      "name": "Оформление подписки",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "subscribe",
+        "user_id": 1,
+        "months": 1
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "months_added": 1
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Проверка статуса подписки",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "check_status",
+        "user_id": 1
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "has_access": true
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

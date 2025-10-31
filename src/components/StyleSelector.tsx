@@ -1,10 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Slider } from '@/components/ui/slider';
 import Icon from '@/components/ui/icon';
 import { useState } from 'react';
 
 const StyleSelector = () => {
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+  const [budget, setBudget] = useState<number[]>([50000]);
 
   const styles = [
     { name: 'Casual', icon: 'Shirt', color: 'from-blue-400 to-blue-600' },
@@ -46,14 +48,40 @@ const StyleSelector = () => {
           ))}
         </div>
 
-        {selectedStyle && (
-          <div className="mt-4 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg">
-            <p className="text-sm font-medium mb-2">Стиль: {selectedStyle}</p>
-            <p className="text-xs text-muted-foreground">
-              AI подберёт образы в этом стиле из наших партнёрских магазинов
-            </p>
+        <div className="mt-4 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg space-y-4">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm font-medium flex items-center gap-2">
+                <Icon name="Wallet" size={16} />
+                Бюджет образа
+              </p>
+              <Badge variant="secondary" className="font-mono">
+                {budget[0].toLocaleString('ru-RU')} ₽
+              </Badge>
+            </div>
+            <Slider
+              value={budget}
+              onValueChange={setBudget}
+              min={5000}
+              max={200000}
+              step={5000}
+              className="mb-2"
+            />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>5 000 ₽</span>
+              <span>200 000 ₽</span>
+            </div>
           </div>
-        )}
+          
+          {selectedStyle && (
+            <div className="pt-2 border-t border-primary/20">
+              <p className="text-sm font-medium mb-1">Стиль: {selectedStyle}</p>
+              <p className="text-xs text-muted-foreground">
+                AI подберёт образы в этом стиле из наших партнёрских магазинов
+              </p>
+            </div>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

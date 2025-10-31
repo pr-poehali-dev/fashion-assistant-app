@@ -75,8 +75,8 @@ const Index = () => {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h2 className="text-2xl font-bold mb-2">Создай идеальный образ</h2>
-                    <p className="text-white/90 text-sm">AI поможет подобрать стиль под любой случай</p>
+                    <h2 className="text-2xl font-bold mb-2">Создай свой идеальный образ, стань Super super star</h2>
+                    <p className="text-white/90 text-sm">AI поможет подобрать стиль под любой случай и быть эталоном стиля, находясь в центре внимания</p>
                   </div>
                   <Icon name="Sparkles" size={48} className="opacity-50" />
                 </div>

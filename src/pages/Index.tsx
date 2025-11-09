@@ -50,34 +50,34 @@ const Index = () => {
         </header>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList className="grid w-full grid-cols-7 bg-white/80 backdrop-blur overflow-x-auto">
-            <TabsTrigger value="home" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
-              <Icon name="Home" size={20} />
-              <span className="text-xs">Главная</span>
+          <TabsList className="flex justify-between w-full bg-white/80 backdrop-blur px-1 h-auto py-2">
+            <TabsTrigger value="home" className="flex flex-col gap-0.5 px-2 py-1.5 h-auto data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white flex-1 min-w-0">
+              <Icon name="Home" size={18} />
+              <span className="text-[10px] leading-tight truncate w-full text-center">Главная</span>
             </TabsTrigger>
-            <TabsTrigger value="analyze" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
-              <Icon name="Camera" size={20} />
-              <span className="text-xs">Анализ</span>
+            <TabsTrigger value="analyze" className="flex flex-col gap-0.5 px-2 py-1.5 h-auto data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white flex-1 min-w-0">
+              <Icon name="Camera" size={18} />
+              <span className="text-[10px] leading-tight truncate w-full text-center">Анализ</span>
             </TabsTrigger>
-            <TabsTrigger value="search" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
-              <Icon name="ScanSearch" size={20} />
-              <span className="text-xs">Поиск</span>
+            <TabsTrigger value="search" className="flex flex-col gap-0.5 px-2 py-1.5 h-auto data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white flex-1 min-w-0">
+              <Icon name="ScanSearch" size={18} />
+              <span className="text-[10px] leading-tight truncate w-full text-center">Поиск</span>
             </TabsTrigger>
-            <TabsTrigger value="favorites" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
-              <Icon name="Heart" size={20} />
-              <span className="text-xs">Избранное</span>
+            <TabsTrigger value="favorites" className="flex flex-col gap-0.5 px-2 py-1.5 h-auto data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white flex-1 min-w-0">
+              <Icon name="Heart" size={18} />
+              <span className="text-[10px] leading-tight truncate w-full text-center">Избранное</span>
             </TabsTrigger>
-            <TabsTrigger value="calendar" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
-              <Icon name="Calendar" size={20} />
-              <span className="text-xs">События</span>
+            <TabsTrigger value="calendar" className="flex flex-col gap-0.5 px-2 py-1.5 h-auto data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white flex-1 min-w-0">
+              <Icon name="Calendar" size={18} />
+              <span className="text-[10px] leading-tight truncate w-full text-center">События</span>
             </TabsTrigger>
-            <TabsTrigger value="beauty" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
-              <Icon name="Sparkles" size={20} />
-              <span className="text-xs">Салоны</span>
+            <TabsTrigger value="beauty" className="flex flex-col gap-0.5 px-2 py-1.5 h-auto data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white flex-1 min-w-0">
+              <Icon name="Sparkles" size={18} />
+              <span className="text-[10px] leading-tight truncate w-full text-center">Салоны</span>
             </TabsTrigger>
-            <TabsTrigger value="profile" className="flex flex-col gap-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white">
-              <Icon name="User" size={20} />
-              <span className="text-xs">Профиль</span>
+            <TabsTrigger value="profile" className="flex flex-col gap-0.5 px-2 py-1.5 h-auto data-[state=active]:bg-gradient-to-br data-[state=active]:from-primary data-[state=active]:to-secondary data-[state=active]:text-white flex-1 min-w-0">
+              <Icon name="User" size={18} />
+              <span className="text-[10px] leading-tight truncate w-full text-center">Профиль</span>
             </TabsTrigger>
           </TabsList>
 

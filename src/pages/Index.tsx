@@ -37,9 +37,7 @@ const Index = () => {
         <header className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                StyleAI
-              </h1>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Твой стилист</h1>
               <p className="text-sm text-muted-foreground">Твой персональный стилист</p>
             </div>
             <Badge variant="secondary" className="px-3 py-1">
